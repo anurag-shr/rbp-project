@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+data/raw/rbpgo/Table_HS_RBP.txt
+data/raw/rbimage/Hela_FeaturesMatrix.xlsx
+data/raw/rbpworld/Homo_sapiens-RBPs.csv
