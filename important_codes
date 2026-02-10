@@ -1,0 +1,12 @@
+# To check if a package is available in the library or not
+
+if (require("ggplot2")) {
+     print("The package 'ggplot2' is installed. You can use.")
+} else {
+     print("The package 'ggplot2' is not found.")
+}
+
+# To check the libraries that are present
+
+.libPaths() # Will give the absolute paths to the libraries as wee as list the libraries 
+lapply(.libPaths(), list.files) # To check the packages present in the libraries 
