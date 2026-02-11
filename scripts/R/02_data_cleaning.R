@@ -46,14 +46,36 @@ colnames(rbpgo) <- new_names
 write_xlsx(rbpgo, "data/processed/rbpgo.xlsx")
 print("Written rbpgo dataframe to Excel file in data/processed folder")
 
-#1. Data cleaning rbpimage dataframe 
-# Drop columns which are not required 
 
-drop <- c("Entry_Name","RBP2GO_Score","Protein_Name","Nb_Datasets","Listing_Counts","AVG10_Int_Listing_Count","Mass_kDa","Length_AA","pI","Listing_Count")
-rbpimage <- rbpimage[,!(names(rbpimage) %in% drop)]
+#3. Data cleaning rbpimage dataframe 
+# Keep specific columns by index
+rbpimage <- rbpimage[, c(1, 3)]
 print('Modified dataframe:-')
 rbpimage
 
+# Add column names to rbpimage dataframe
+new_names <- c("gene_name", "ensembl_id")
+colnames(rbpimage) <- new_names
+
+# Get rbpimage dataframe as Excel file and store in data/processed folder
+write_xlsx(rbpimage, "data/processed/rbpimage.xlsx")
+print("Written rbpimage dataframe to Excel file in data/processed folder")
+
+
+#4. Data cleaning rbpworld dataframe 
+# Dropping columns from rbpworld dataframe
+drop <- c("No. RBPome")
+rbpworld <- rbpworld[,!(names(rbpworld) %in% drop)]
+print('Modified dataframe:-')
+rbpworld
+
+# Add column names to rbpimage dataframe
+new_names <- c("ensembl_id", "gene_name", "rbp_type")
+colnames(rbpworld) <- new_names
+
+# Get rbpworld dataframe as Excel file and store in data/processed folder
+write_xlsx(rbpworld, "data/processed/rbpworld.xlsx")
+print("Written rbpworld dataframe to Excel file in data/processed folder")
 
 
 
