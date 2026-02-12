@@ -4,8 +4,8 @@ library(dplyr)
 library(readr)
 library(writexl)
 
-#1. Data cleaning rbpdb dataframe  
-# Drop columns which are not required 
+#1. Data cleaning rbpdb dataframe
+# Drop columns which are not required
 
 drop <- c("1226","2010-04-24","2010-04-24","2010-03-18","9606")
 
@@ -22,11 +22,31 @@ rbpdb <- rbpdb[, 1:(ncol(rbpdb) - n_to_remove)]
 new_names <- c("ensembl_id", "gene_name", "function", "species")
 colnames(rbpdb) <- new_names
 
+# Remove duplicate from rbpdb dataframe
+rbpdb <- rbpdb[!duplicated(rbpdb), ]
+
+# Check if there are any duplicate rows in the rbpdb dataframe
+if(any(duplicated(rbpdb))) {
+  print("There are duplicate rows in the rbpdb dataframe.")
+} else {
+  print("There are no duplicate rows in the rbpdb dataframe.")
+}
+
+# Drop NA values from rbpdb dataframe
+rbpdb <- na.omit(rbpdb)
+
+# Check if there are any NA values in the rbpdb dataframe
+if(any(is.na(rbpdb))) {
+  print("There are NA values in the rbpdb dataframe.")
+} else {
+  print("There are no NA values in the rbpdb dataframe.")
+}
+
 # Get rbpdb dataframe as Excel file and store in data/processed folder
 write_xlsx(rbpdb, "data/processed/rbpdb.xlsx")
 
 
-#2. Data cleaning rbpgo dataframe 
+#2. Data cleaning rbpgo dataframe
 # Dropping columns from rbpgo dataframe
 drop <- c("Entry_Name","RBP2GO_Score","Protein_Name","Nb_Datasets","Listing_Counts","AVG10_Int_Listing_Count","Mass_kDa","Length_AA","pI","Listing_Count")
 rbpgo <- rbpgo[,!(names(rbpgo) %in% drop)]
@@ -42,12 +62,32 @@ rbpgo
 new_names <- c("uniprot_id", "gene_name", "alias_names")
 colnames(rbpgo) <- new_names
 
+# Remove duplicates from rbpgo dataframe
+rbpgo <- rbpgo[!duplicated(rbpgo), ]
+
+# Check if there are any dupicates in rbpgo dataframe
+if(any(duplicated(rbpgo))) {
+  print("There are duplicate rows in the rbpgo dataframe.")
+} else {
+  print("There are no duplicate rows in the rbpgo dataframe.")
+}
+
+# Drop NA values from rbpgo dataframe
+rbpgo <- na.omit(rbpgo)
+
+# Check if there are any NA values in the rbpgo dataframe
+if(any(is.na(rbpgo))) {
+  print("There are NA values in the rbpgo dataframe.")
+} else {
+  print("There are no NA values in the rbpgo dataframe.")
+}
+
 # Get rbpdb dataframe as Excel file and store in data/processed folder
 write_xlsx(rbpgo, "data/processed/rbpgo.xlsx")
 print("Written rbpgo dataframe to Excel file in data/processed folder")
 
 
-#3. Data cleaning rbpimage dataframe 
+#3. Data cleaning rbpimage dataframe
 # Keep specific columns by index
 rbpimage <- rbpimage[, c(1, 3)]
 print('Modified dataframe:-')
@@ -56,6 +96,26 @@ rbpimage
 # Add column names to rbpimage dataframe
 new_names <- c("gene_name", "ensembl_id")
 colnames(rbpimage) <- new_names
+
+# Remove duplicates from rbpimage dataframe
+rbpimage <- rbpimage[!duplicated(rbpimage), ]
+
+# Check if there are any dupicates in rbpgo dataframe
+if(any(duplicated(rbpimage))) {
+  print("There are duplicate rows in the rbpimage dataframe.")
+} else {
+  print("There are no duplicate rows in the rbpimage dataframe.")
+}
+
+# Drop NA values from rbpgo dataframe
+rbpimage <- na.omit(rbpimage)
+
+# Check if there are any NA values in the rbpgo dataframe
+if(any(is.na(rbpimage))) {
+  print("There are NA values in the rbpimage dataframe.")
+} else {
+  print("There are no NA values in the rbpimage dataframe.")
+}
 
 # Get rbpimage dataframe as Excel file and store in data/processed folder
 write_xlsx(rbpimage, "data/processed/rbpimage.xlsx")
@@ -73,9 +133,33 @@ rbpworld
 new_names <- c("ensembl_id", "gene_name", "rbp_type")
 colnames(rbpworld) <- new_names
 
+# Remove duplicates from rbpimage dataframe
+rbpimage <- rbpimage[!duplicated(rbpimage), ]
+
+# Check if there are any dupicates in rbpgo dataframe
+if(any(duplicated(rbpimage))) {
+  print("There are duplicate rows in the rbpimage dataframe.")
+} else {
+  print("There are no duplicate rows in the rbpimage dataframe.")
+}
+
+# Drop NA values from rbpgo dataframe
+rbpimage <- na.omit(rbpimage)
+
+# Check if there are any NA values in the rbpgo dataframe
+if(any(is.na(rbpimage))) {
+  print("There are NA values in the rbpimage dataframe.")
+} else {
+  print("There are no NA values in the rbpimage dataframe.")
+}
+
+
 # Get rbpworld dataframe as Excel file and store in data/processed folder
 write_xlsx(rbpworld, "data/processed/rbpworld.xlsx")
 print("Written rbpworld dataframe to Excel file in data/processed folder")
+
+
+
 
 
 
