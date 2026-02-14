@@ -7,13 +7,11 @@ library(writexl)
 
 # Read Excel files from data/processed folder
 rbpgo <- read_excel("data/processed/rbpgo.xlsx")
-rbpdb <- read_excel("data/processed/rbpdb.xlsx")
 rbpimage <- read_excel("data/processed/rbpimage.xlsx")
 rbpworld <- read_excel("data/processed/rbpworld.xlsx")
 
 # Find common genes 
 common_rbps <- rbpgo %>%
-  inner_join(rbpdb) %>%
   inner_join(rbpimage) %>%
   inner_join(rbpworld)
 

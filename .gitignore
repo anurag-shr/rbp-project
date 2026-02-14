@@ -8,5 +8,8 @@ data/raw/rbpworld/Homo_sapiens-RBPs.csv
 data/raw/rbpdb/RBPDB_v1.3.1_experiments_human_2012-11-21.xslx
 data/raw/rbpdb/RBPDB_v1.3.1_proteins_human_2012-11-21.xslx
 data/raw/rbpdb/RBPDB_v1.3.1_protExp_human_2012-11-21.xslx
+data/processed/rbpgo.xlsx
+data/processed/rbpimage.xlsx
+data/processed/rbpworld.xlsx
 notes.txt
 important_codes.txt
