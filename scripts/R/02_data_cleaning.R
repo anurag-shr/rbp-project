@@ -3,50 +3,10 @@
 library(dplyr)
 library(readr)
 library(writexl)
-
-#1. Data cleaning rbpdb dataframe
-# Drop columns which are not required
-
-drop <- c("1226","2010-04-24","2010-04-24","2010-03-18","9606")
-
-rbpdb <- rbpdb[,!(names(rbpdb) %in% drop)]
-print('Modified dataframe:-')
-rbpdb
-
-# Droping columns from rbpdb dataframe using indexing
-# Remove the last 5 columns
-n_to_remove <- 5
-rbpdb <- rbpdb[, 1:(ncol(rbpdb) - n_to_remove)]
-
-# Add column names to rbpdb dataframe
-new_names <- c("ensembl_id", "gene_name", "function", "species")
-colnames(rbpdb) <- new_names
-
-# Remove duplicate from rbpdb dataframe
-rbpdb <- rbpdb[!duplicated(rbpdb), ]
-
-# Check if there are any duplicate rows in the rbpdb dataframe
-if(any(duplicated(rbpdb))) {
-  print("There are duplicate rows in the rbpdb dataframe.")
-} else {
-  print("There are no duplicate rows in the rbpdb dataframe.")
-}
-
-# Drop NA values from rbpdb dataframe
-rbpdb <- na.omit(rbpdb)
-
-# Check if there are any NA values in the rbpdb dataframe
-if(any(is.na(rbpdb))) {
-  print("There are NA values in the rbpdb dataframe.")
-} else {
-  print("There are no NA values in the rbpdb dataframe.")
-}
-
-# Get rbpdb dataframe as Excel file and store in data/processed folder
-write_xlsx(rbpdb, "data/processed/rbpdb.xlsx")
+library(tidyr)
 
 
-#2. Data cleaning rbpgo dataframe
+#1. Data cleaning rbpgo dataframe
 # Dropping columns from rbpgo dataframe
 drop <- c("Entry_Name","RBP2GO_Score","Protein_Name","Nb_Datasets","Listing_Counts","AVG10_Int_Listing_Count","Mass_kDa","Length_AA","pI","Listing_Count")
 rbpgo <- rbpgo[,!(names(rbpgo) %in% drop)]
@@ -87,7 +47,7 @@ write_xlsx(rbpgo, "data/processed/rbpgo.xlsx")
 print("Written rbpgo dataframe to Excel file in data/processed folder")
 
 
-#3. Data cleaning rbpimage dataframe
+#2. Data cleaning rbpimage dataframe
 # Keep specific columns by index
 rbpimage <- rbpimage[, c(1, 3)]
 print('Modified dataframe:-')
@@ -122,7 +82,7 @@ write_xlsx(rbpimage, "data/processed/rbpimage.xlsx")
 print("Written rbpimage dataframe to Excel file in data/processed folder")
 
 
-#4. Data cleaning rbpworld dataframe 
+#3. Data cleaning rbpworld dataframe 
 # Dropping columns from rbpworld dataframe
 drop <- c("No. RBPome")
 rbpworld <- rbpworld[,!(names(rbpworld) %in% drop)]
@@ -157,6 +117,118 @@ if(any(is.na(rbpimage))) {
 # Get rbpworld dataframe as Excel file and store in data/processed folder
 write_xlsx(rbpworld, "data/processed/rbpworld.xlsx")
 print("Written rbpworld dataframe to Excel file in data/processed folder")
+
+
+#4. Data cleaning uniprot dataframe
+# Dropping columns from uniprot dataframe
+uniprot <- uniprot[, c(4, 5, 7)] 
+print('Modified dataframe:-')
+uniprot
+
+# Add column names to rbpimage dataframe
+new_names <- c("protein_name", "gene_name", "aa_length")
+colnames(uniprot) <- new_names
+
+# Remove duplicates from uniprot dataframe
+uniprot <- uniprot[!duplicated(uniprot), ]
+
+# Check if there are any duplicate rows in the uniprot dataframe
+if(any(duplicated(uniprot))) {
+  print("There are duplicate rows in the uniprot dataframe.")
+} else {
+  print("There are no duplicate rows in the uniprot dataframe.")
+}
+
+# Drop NA values from uniprot dataframe
+uniprot <- uniprot %>% 
+  drop_na()      # removes all rows that have at least one NA in any column
+
+# Check if there are any NA values in the rbpdb dataframe
+if(any(is.na(uniprot))) {
+  print("There are NA values in the uniprot dataframe.")
+} else {
+  print("There are no NA values in the uniprot dataframe.")
+}
+
+# Get uniprot dataframe as Excel file and store in data/processed folder
+write_xlsx(uniprot, "data/processed/uniprot.xlsx")
+
+
+#5. Data cleaning ncbi dataframe
+# Dropping columns from ncbi dataframe
+ncbi <- ncbi[, c(6, 10, 11, 17)] 
+print('Modified dataframe:-')
+ncbi
+
+# Add column names to rbpimage dataframe
+# Rename the columns by index
+colnames(ncbi)[1] <- "gene_name"
+colnames(ncbi)[4] <- "omim_id"
+print('Modified dataframe:-')
+ncbi
+
+# Remove duplicates from uniprot dataframe
+ncbi <- ncbi[!duplicated(ncbi), ]
+
+# Check if there are any duplicate rows in the uniprot dataframe
+if(any(duplicated(ncbi))) {
+  print("There are duplicate rows in the ncbi dataframe.")
+} else {
+  print("There are no duplicate rows in the ncbi dataframe.")
+}
+
+# Drop NA values from ncbi dataframe
+ncbi <- ncbi %>% 
+  drop_na()      # removes all rows that have at least one NA in any column
+
+# Check if there are any NA values in the ncbi dataframe
+if(any(is.na(ncbi))) {
+  print("There are NA values in the ncbi dataframe.")
+} else {
+  print("There are no NA values in the ncbi dataframe.")
+}
+
+# Get uniprot dataframe as Excel file and store in data/processed folder
+write_xlsx(ncbi, "data/processed/ncbi.xlsx")
+
+
+#6. Data cleaning postar dataframe
+# Dropping columns from postar dataframe
+postar <- postar[, c(1, 5)] 
+print('Modified dataframe:-')
+postar
+
+# Add column names to rbpimage dataframe
+# Rename the columns by index
+colnames(postar)[1] <- "gene_name"
+colnames(postar)[2] <- "function"
+print('Modified dataframe:-')
+postar
+
+# Remove duplicates from uniprot dataframe
+postar <- postar[!duplicated(ncbi), ]
+
+# Check if there are any duplicate rows in the uniprot dataframe
+if(any(duplicated(postar))) {
+  print("There are duplicate rows in the postar dataframe.")
+} else {
+  print("There are no duplicate rows in the postar dataframe.")
+}
+
+# Drop NA values from ncbi dataframe
+postar <- postar %>% 
+  drop_na()      # removes all rows that have at least one NA in any column
+
+# Check if there are any NA values in the ncbi dataframe
+if(any(is.na(postar))) {
+  print("There are NA values in the postar dataframe.")
+} else {
+  print("There are no NA values in the postar dataframe.")
+}
+
+# Get uniprot dataframe as Excel file and store in data/processed folder
+write_xlsx(postar, "data/processed/postar.xlsx")
+
 
 
 

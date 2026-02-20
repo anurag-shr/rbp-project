@@ -6,6 +6,7 @@
 *.log
 *.xlsx
 *.txt
+*.tsv
 data/
 logs/
 notes.txt
