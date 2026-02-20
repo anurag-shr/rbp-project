@@ -1,6 +1,0 @@
-Paths to raw data 
-
-for rbpdb: data/raw/rbpdb/RBPDB_v1.3.1_proteins_human_2012-11-21.xslx
-for rbpgo: data/raw/rbpgo/Table_HS_RBP.txt
-for rbpimage: data/raw/rbpimage/Hela_FeaturesMatrix.xslx
-for rbpworld: data/raw/rbpworld/Homo_sapiens-RBPs.csv
