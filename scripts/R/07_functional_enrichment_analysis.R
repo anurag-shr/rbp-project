@@ -155,32 +155,48 @@ go_bf_plot <- go_bp_df %>%
   )
 
 ## 2. Dot plot for GO BP enrichment
-
 p_bf <- ggplot(go_bf_plot,
-            aes(y = Description,
-                x = GeneRatio_num,
-                color = p.adjust,
-                size  = Count)) +
+               aes(y = Description,
+                   x = GeneRatio_num,
+                   color = p.adjust,
+                   size  = Count)) +
   geom_point(alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient(low = "red", high = "green", trans = "log10") +
+  scale_color_gradient2(
+    low  = "red",
+    mid  = "white",
+    high = "blue",
+    trans = "log10",
+    name = "p.adjust"
+  ) +
   labs(
     y     = "GO Biological Process",
     x     = "Gene Ratio (%)",
     title = "GO Biological Process Enrichment",
-    color = "p.adjust",
     size  = "Gene count"
+  ) +
+  guides(
+    size  = guide_legend(order = 1),
+    color = guide_colourbar(order = 2)
   ) +
   theme_bw() +
   theme(
     plot.title    = element_text(hjust = 0.5, size = 15, face = "bold"),
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
-    axis.text.y   = element_text(size = 8, colour = "black"),
+    axis.text.y   = element_text(size = 8,  colour = "black"),
+    
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
-    legend.position   = "top",
-    legend.direction  = "vertical",
+    
+    # Legends outside panel, right side, bottom-aligned, stacked vertically
+    legend.position      = "right",        # right margin
+    legend.justification = "center",       # vertically centered
+    legend.box          = "vertical",      # stack size above color
+    legend.box.just     = "bottom",        # align stack to bottom
+    legend.margin       = margin(l = 8),   # space between plot and legend
+    legend.spacing.y    = unit(0.3, "cm"), # vertical space between legend items
+    
     panel.grid.major  = element_line(colour = "grey85", linewidth = 0.4),
     panel.grid.minor  = element_line(colour = "grey92", linewidth = 0.25),
     panel.border      = element_rect(colour = "black", fill = NA, linewidth = 0.8)
@@ -211,32 +227,48 @@ go_plot_mf <- go_mf_df %>%
   )
 
 ## 2. Dot plot for GO MF enrichment
-
 p_mf <- ggplot(go_plot_mf,
-            aes(y = Description,
-                x = GeneRatio_num,
-                color = p.adjust,
-                size  = Count)) +
+               aes(y = Description,
+                   x = GeneRatio_num,
+                   color = p.adjust,
+                   size  = Count)) +
   geom_point(alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient(low = "red", high = "green", trans = "log10") +
+  scale_color_gradient2(
+    low  = "red",
+    mid  = "white",
+    high = "blue",
+    trans = "log10",
+    name = "p.adjust"
+  ) +
   labs(
     y     = "GO Molecular Function",
     x     = "Gene Ratio (%)",
     title = "GO Molecular Function Enrichment",
-    color = "p.adjust",
     size  = "Gene count"
+  ) +
+  guides(
+    size  = guide_legend(order = 1),
+    color = guide_colourbar(order = 2)
   ) +
   theme_bw() +
   theme(
     plot.title    = element_text(hjust = 0.5, size = 15, face = "bold"),
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
-    axis.text.y   = element_text(size = 8, colour = "black"),
+    axis.text.y   = element_text(size = 8,  colour = "black"),
+    
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
-    legend.position   = "top",
-    legend.direction  = "vertical",
+    
+    # Legends outside panel, right side, bottom-aligned, stacked vertically
+    legend.position      = "right",        # right margin
+    legend.justification = "center",       # vertically centered
+    legend.box          = "vertical",      # stack size above color
+    legend.box.just     = "bottom",        # align stack to bottom
+    legend.margin       = margin(l = 8),   # space between plot and legend
+    legend.spacing.y    = unit(0.3, "cm"), # vertical space between legend items
+    
     panel.grid.major  = element_line(colour = "grey85", linewidth = 0.4),
     panel.grid.minor  = element_line(colour = "grey92", linewidth = 0.25),
     panel.border      = element_rect(colour = "black", fill = NA, linewidth = 0.8)
@@ -266,33 +298,49 @@ go_plot_cc <- go_cc_df %>%
     Description = factor(Description, levels = rev(Description))
   )
 
-## 2. Dot plot for GO MF enrichment
-
+## 2. Dot plot for GO CC enrichment
 p_cc <- ggplot(go_plot_cc,
-            aes(y = Description,
-                x = GeneRatio_num,
-                color = p.adjust,
-                size  = Count)) +
+               aes(y = Description,
+                   x = GeneRatio_num,
+                   color = p.adjust,
+                   size  = Count)) +
   geom_point(alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient(low = "red", high = "green", trans = "log10") +
+  scale_color_gradient2(
+    low  = "red",
+    mid  = "white",
+    high = "blue",
+    trans = "log10",
+    name = "p.adjust"
+  ) +
   labs(
-    y     = "GO Cellular Components",
+    y     = "GO Cellular Component",
     x     = "Gene Ratio (%)",
-    title = "GO Cellular Components Enrichment",
-    color = "p.adjust",
+    title = "GO Cellular Component Enrichment",
     size  = "Gene count"
+  ) +
+  guides(
+    size  = guide_legend(order = 1),
+    color = guide_colourbar(order = 2)
   ) +
   theme_bw() +
   theme(
     plot.title    = element_text(hjust = 0.5, size = 15, face = "bold"),
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
-    axis.text.y   = element_text(size = 8, colour = "black"),
+    axis.text.y   = element_text(size = 8,  colour = "black"),
+    
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
-    legend.position   = "top",
-    legend.direction  = "vertical",
+    
+    # Legends outside panel, right side, bottom-aligned, stacked vertically
+    legend.position      = "right",        # right margin
+    legend.justification = "center",       # vertically centered
+    legend.box          = "vertical",      # stack size above color
+    legend.box.just     = "bottom",        # align stack to bottom
+    legend.margin       = margin(l = 8),   # space between plot and legend
+    legend.spacing.y    = unit(0.3, "cm"), # vertical space between legend items
+    
     panel.grid.major  = element_line(colour = "grey85", linewidth = 0.4),
     panel.grid.minor  = element_line(colour = "grey92", linewidth = 0.25),
     panel.border      = element_rect(colour = "black", fill = NA, linewidth = 0.8)
@@ -313,10 +361,11 @@ if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE)  # dir.create deta
 w <- 7  # inches
 h <- 5  # inches
 
+# A) GO BP Functional Enrichment
 # 1) Vector PDF (best for journals; crisp text/lines)
 ggplot2::ggsave(
   filename = file.path(outdir, "GO_BP_bubble.pdf"),
-  plot = p,
+  plot = p_bf,
   width = w, height = h, units = "in",
   device = grDevices::cairo_pdf   # Cairo often improves font handling [web:47][web:54]
 )
@@ -324,7 +373,7 @@ ggplot2::ggsave(
 # 2) High-DPI PNG (good for submissions that require raster)
 ggplot2::ggsave(
   filename = file.path(outdir, "GO_BP_bubble.png"),
-  plot = p,
+  plot = p_bf,
   width = w, height = h, units = "in",
   dpi = 600,
   device = ragg::agg_png
@@ -333,16 +382,67 @@ ggplot2::ggsave(
 # 3) Optional: TIFF (some journals prefer this)
 ggplot2::ggsave(
   filename = file.path(outdir, "GO_BP_bubble.tiff"),
-  plot = p,
+  plot = p_bf,
   width = w, height = h, units = "in",
   dpi = 600,
   compression = "lzw"
 )
 
 
+# A) GO MF Functional Enrichment
+# 1) Vector PDF (best for journals; crisp text/lines)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_MF_bubble.pdf"),
+  plot = p_mf,
+  width = w, height = h, units = "in",
+  device = grDevices::cairo_pdf   # Cairo often improves font handling [web:47][web:54]
+)
+
+# 2) High-DPI PNG (good for submissions that require raster)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_MF_bubble.png"),
+  plot = p_mf,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  device = ragg::agg_png
+)
+
+# 3) Optional: TIFF (some journals prefer this)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_MF_bubble.tiff"),
+  plot = p_mf,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  compression = "lzw"
+)
 
 
+# A) GO CC Functional Enrichment
+# 1) Vector PDF (best for journals; crisp text/lines)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_CC_bubble.pdf"),
+  plot = p_cc,
+  width = w, height = h, units = "in",
+  device = grDevices::cairo_pdf   # Cairo often improves font handling [web:47][web:54]
+)
 
+# 2) High-DPI PNG (good for submissions that require raster)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_CC_bubble.png"),
+  plot = p_cc,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  device = ragg::agg_png
+)
+
+# 3) Optional: TIFF (some journals prefer this)
+ggplot2::ggsave(
+  filename = file.path(outdir, "GO_CC_bubble.tiff"),
+  plot = p_cc,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  compression = "lzw"
+)
 
 
 
