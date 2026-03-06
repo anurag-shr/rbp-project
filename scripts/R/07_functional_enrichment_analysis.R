@@ -10,6 +10,7 @@ library(tidyverse)
 library(ggplot2)
 library(scales)
 library(ragg)
+library(viridis)
 
 
 # ── 1. Genes dataframe  ───────────────────────────────────────────────────────
@@ -160,11 +161,12 @@ p_bf <- ggplot(go_bf_plot,
                    x = GeneRatio_num,
                    color = p.adjust,
                    size  = Count)) +
-  geom_point(alpha = 0.9) +
+  geom_point(aes(size = Count, color = p.adjust),
+             shape = 16,
+             alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient2(
-    low  = "red",
-    mid  = "white",
+  scale_color_continuous(
+    low = "red",
     high = "blue",
     trans = "log10",
     name = "p.adjust"
@@ -185,9 +187,11 @@ p_bf <- ggplot(go_bf_plot,
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
     axis.text.y   = element_text(size = 8,  colour = "black"),
+    axis.line = element_line(linewidth = 1.2, color = "grey"),
     
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
+    
     
     # Legends outside panel, right side, bottom-aligned, stacked vertically
     legend.position      = "right",        # right margin
@@ -232,11 +236,12 @@ p_mf <- ggplot(go_plot_mf,
                    x = GeneRatio_num,
                    color = p.adjust,
                    size  = Count)) +
-  geom_point(alpha = 0.9) +
+  geom_point(aes(size = Count, color = p.adjust),
+             shape = 16,
+             alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient2(
+  scale_color_continuous(
     low  = "red",
-    mid  = "white",
     high = "blue",
     trans = "log10",
     name = "p.adjust"
@@ -257,6 +262,7 @@ p_mf <- ggplot(go_plot_mf,
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
     axis.text.y   = element_text(size = 8,  colour = "black"),
+    axis.line = element_line(linewidth = 1.2, color = "grey"),
     
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
@@ -304,11 +310,12 @@ p_cc <- ggplot(go_plot_cc,
                    x = GeneRatio_num,
                    color = p.adjust,
                    size  = Count)) +
-  geom_point(alpha = 0.9) +
+  geom_point(aes(size = Count, color = p.adjust),
+             shape = 16,
+             alpha = 0.9) +
   scale_x_continuous(labels = percent_format(accuracy = 1)) +
-  scale_color_gradient2(
+  scale_color_continuous(
     low  = "red",
-    mid  = "white",
     high = "blue",
     trans = "log10",
     name = "p.adjust"
@@ -329,6 +336,7 @@ p_cc <- ggplot(go_plot_cc,
     axis.title    = element_text(size = 12, face = "bold", colour = "black"),
     axis.text.x   = element_text(size = 10, colour = "black"),
     axis.text.y   = element_text(size = 8,  colour = "black"),
+    axis.line = element_line(linewidth = 1.2, color = "grey"),
     
     legend.title  = element_text(size = 12, face = "bold", colour = "black"),
     legend.text   = element_text(size = 10, colour = "black"),
@@ -389,7 +397,7 @@ ggplot2::ggsave(
 )
 
 
-# A) GO MF Functional Enrichment
+# B) GO MF Functional Enrichment
 # 1) Vector PDF (best for journals; crisp text/lines)
 ggplot2::ggsave(
   filename = file.path(outdir, "GO_MF_bubble.pdf"),
@@ -417,7 +425,7 @@ ggplot2::ggsave(
 )
 
 
-# A) GO CC Functional Enrichment
+# C) GO CC Functional Enrichment
 # 1) Vector PDF (best for journals; crisp text/lines)
 ggplot2::ggsave(
   filename = file.path(outdir, "GO_CC_bubble.pdf"),
@@ -446,39 +454,6 @@ ggplot2::ggsave(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ── 4. KEGG Pathway Enrichment ────────────────────────────────────────────────
 kegg_results <- enrichKEGG(
   gene          = genes$entrez_id,
@@ -492,6 +467,98 @@ kegg_results <- enrichKEGG(
 kegg_results <- setReadable(kegg_results, OrgDb = org.Hs.eg.db, keyType = "ENTREZID")
 
 head(as.data.frame(kegg_results))
+
+# Saving GO results 
+write.csv(as.data.frame(kegg_results),   "data/processed/kegg_enrichment.csv",   row.names = FALSE)
+
+
+p_kegg <- ggplot(kegg_results,
+               aes(y = Description,
+                   x = GeneRatio,
+                   color = p.adjust,
+                   size  = Count)) +
+  geom_point(aes(size = Count, color = p.adjust),
+             shape = 16,
+             alpha = 0.9) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_continuous(
+    low  = "red",
+    high = "blue",
+    trans = "log10",
+    name = "p.adjust"
+  ) +
+  labs(
+    y     = "KEGG Enrichment",
+    x     = "Gene Ratio (%)",
+    title = "KEGG Pathway Enrichment",
+    size  = "Gene count"
+  ) +
+  guides(
+    size  = guide_legend(order = 1),
+    color = guide_colourbar(order = 2)
+  ) +
+  theme_bw() +
+  theme(
+    plot.title    = element_text(hjust = 0.5, size = 15, face = "bold"),
+    axis.title    = element_text(size = 12, face = "bold", colour = "black"),
+    axis.text.x   = element_text(size = 10, colour = "black"),
+    axis.text.y   = element_text(size = 8,  colour = "black"),
+    axis.line = element_line(linewidth = 1.2, color = "grey"),
+    
+    legend.title  = element_text(size = 12, face = "bold", colour = "black"),
+    legend.text   = element_text(size = 10, colour = "black"),
+    
+    # Legends outside panel, right side, bottom-aligned, stacked vertically
+    legend.position      = "right",        # right margin
+    legend.justification = "center",       # vertically centered
+    legend.box          = "vertical",      # stack size above color
+    legend.box.just     = "bottom",        # align stack to bottom
+    legend.margin       = margin(l = 8),   # space between plot and legend
+    legend.spacing.y    = unit(0.3, "cm"), # vertical space between legend items
+    
+    panel.grid.major  = element_line(colour = "grey85", linewidth = 0.4),
+    panel.grid.minor  = element_line(colour = "grey92", linewidth = 0.25),
+    panel.border      = element_rect(colour = "black", fill = NA, linewidth = 0.8)
+  )
+
+print(p_kegg)
+
+# Use your existing folder
+outdir <- "plots"
+
+# Create it only if missing (won't warn if it already exists)
+if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE)  # dir.create details [web:71]
+
+# Set publication-friendly size
+w <- 7  # inches
+h <- 5  # inches
+
+# A) KEGG Pathway Enrichment
+# 1) Vector PDF (best for journals; crisp text/lines)
+ggplot2::ggsave(
+  filename = file.path(outdir, "KEGG_Pathway_Bubble.pdf"),
+  plot = p_kegg,
+  width = w, height = h, units = "in",
+  device = grDevices::cairo_pdf   # Cairo often improves font handling [web:47][web:54]
+)
+
+# 2) High-DPI PNG (good for submissions that require raster)
+ggplot2::ggsave(
+  filename = file.path(outdir, "KEGG_Pathway_Bubble.png"),
+  plot = p_kegg,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  device = ragg::agg_png
+)
+
+# 3) Optional: TIFF (some journals prefer this)
+ggplot2::ggsave(
+  filename = file.path(outdir, "KEGG_Pathway_Bubble.tiff"),
+  plot = p_kegg,
+  width = w, height = h, units = "in",
+  dpi = 600,
+  compression = "lzw"
+)
 
 
 
